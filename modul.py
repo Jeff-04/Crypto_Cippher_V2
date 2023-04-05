@@ -32,10 +32,10 @@ def sender_email(type, email, password, to, subject, text, key, real_text):
     # The email content (your message)
     if key != '':
         content_text = str(f"===== {str(type)} Encryption Email =====\n") + str(text) + str(
-            f'\n Encryption Key : {key}') + str("\n===== Go To : https://streamlit/test")
+            f'\n Encryption Key : {key}') + str("\n===== Go To : https://cryptography-caesar-viginere-chipper.streamlit.app/")
     else:
         content_text = str(f"===== {str(type)} Encryption Email =====\n") + \
-            str(text) + str("\n===== Go To : https://streamlit/test")
+            str(text) + str("\n===== Go To : https://cryptography-caesar-viginere-chipper.streamlit.app/")
 
     msg.set_content(str(content_text))
     files = os.listdir('File/')
