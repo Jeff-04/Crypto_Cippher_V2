@@ -12,6 +12,7 @@ import time
 import streamlit as st
 import numpy as np
 from datetime import datetime
+import pytz
 # Function
 
 
@@ -58,7 +59,7 @@ def sender_email(type, email, password, to, subject, text, key, real_text):
     # Send Database (Sender)
     sqliteConnection = sqlite3.connect('enkripsi.db')
     cursor = sqliteConnection.cursor()
-    now = datetime.now()
+    now = datetime.now(pytz.timezone('Asia/Jakarta'))
 
     sqlite_insert_query = f"""INSERT INTO sender
                             VALUES 
@@ -85,7 +86,7 @@ def sender_email(type, email, password, to, subject, text, key, real_text):
         # Insert Receiver
         sqliteConnection = sqlite3.connect('enkripsi.db')
         cursor = sqliteConnection.cursor()
-        now = datetime.now()
+        now = datetime.now(pytz.timezone('Asia/Jakarta'))
 
         sqlite_insert_query = f"""INSERT INTO sender
                                 VALUES 
