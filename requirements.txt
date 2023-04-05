@@ -1,0 +1,4 @@
+pandas
+streamlit_option_menu
+hydralit_components
+secure-smtplib
