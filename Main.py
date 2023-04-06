@@ -226,10 +226,10 @@ else:
                                     st.success("Sukses")
                                     st.success(data_encrypt)
                                     modul.sender_email("Viginere Chipper", str(st.session_state['login']),str(check_key[1]), str(to), str(subject), str(data_encrypt), number_encrypt, text)
-                                    files = os.listdir('File/')
-                                    if len(files) > 0:
-                                        path = os.path.join(os.getcwd(), files[0])
-                                        os.remove(path)
+
+
+
+
                                 else:
                                     st.warning("Setup Email Terlebih Dahulu !")
             else:
