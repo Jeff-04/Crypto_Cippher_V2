@@ -153,7 +153,8 @@ else:
             option_data = [
                 {'label':"Caesar Chipper"},
                 {'label':"Viginere Chipper"},
-                {'label':"Combined Chipper (Caesar & Viginere)"}
+                {'label':"Combined Chipper (Caesar & Viginere)"},
+                {'label' : "Viginere dengan Key Caesar"}
             ]
 
             # override the theme, else it will use the Streamlit applied theme
@@ -226,12 +227,51 @@ else:
                                     st.success("Sukses")
                                     st.success(data_encrypt)
                                     modul.sender_email("Viginere Chipper", str(st.session_state['login']),str(check_key[1]), str(to), str(subject), str(data_encrypt), number_encrypt, text)
-
-
-
-
+                                    files = os.listdir('File/')
+                                    if len(files) > 0:
+                                        path = os.path.join(os.getcwd(), files[0])
+                                        os.remove(path)
                                 else:
                                     st.warning("Setup Email Terlebih Dahulu !")
+            
+            elif str(op) == "Viginere dengan Key Caesar":
+                st.markdown("<h3 align='center'>Viginere dengan Key Caesar</h3>", unsafe_allow_html=True)
+                buffer, col1, col2 = st.columns([2, 6, 2])
+                with col1:
+                    encryption_form = st.empty()
+                    with encryption_form.form('Enkripsi'):
+                        to = st.text_input("To", placeholder="example@gmail.com")
+                        subject = st.text_input("Subject")
+                        text = st.text_area("Body")
+                        number_encrypt = st.text_input('Key')
+                        uploaded_file = st.file_uploader("Choose a file")
+                        submit = st.form_submit_button("Enkripsi")
+
+                        if submit:
+                            if str(text) == "" or str(to) == "" or str(subject) == "":
+                                st.warning("Form tidak boleh kosong !")
+                            
+                            else:
+                                if uploaded_file != None:
+                                    save_folder = os.getcwd() + '/File/'
+                                    save_path = Path(save_folder, uploaded_file.name)
+                                    with open(save_path, mode='wb') as w:
+                                        w.write(uploaded_file.getvalue())
+
+                                check_key = modul.check_key(str(st.session_state['login']))
+                                if type(check_key) != bool:
+                                    key_caesar = modul.caesar_encrypt(str(number_encrypt), 3)
+                                    data_encrypt = modul.viginere_encrypt(str(text), str(key_caesar))
+                                    st.success("Sukses")
+                                    st.success(data_encrypt)
+                                    modul.sender_email("Viginere dengan Key Caesar", str(st.session_state['login']),str(check_key[1]), str(to), str(subject), str(data_encrypt), str(number_encrypt), text)
+                                    files = os.listdir('File/')
+                                    if len(files) > 0:
+                                        path = os.path.join(os.getcwd(), files[0])
+                                        os.remove(path)
+                                else:
+                                    st.warning("Setup Email Terlebih Dahulu !")
+
             else:
                 st.markdown("<h3 align='center'>Enkripsi Chaesar Chipper & Viginere Chipper</h3>", unsafe_allow_html=True)
                 buffer, col1, col2 = st.columns([2, 6, 2])
@@ -305,6 +345,28 @@ else:
                                 st.success("Sukses")
                                 data_encrypt = modul.viginere_decrypt(str(text), str(enkripsi_number))
                                 st.success(data_encrypt)
+            
+            elif str(op) == "Viginere dengan Key Caesar":
+                st.markdown("<h3 align='center'>Dekripsi Viginere dengan Key Caesar</h3>", unsafe_allow_html=True)
+                buffer, col1, col2 = st.columns([2, 6, 2])
+                with col1:
+                    decryption_form = st.empty()
+
+                    with decryption_form.form('Dekripsi'):
+                        text = st.text_area("Masukan Text")
+                        enkripsi_number = st.text_input("Key Decryption")
+                        submit = st.form_submit_button("Enkripsi")
+
+                        if submit:
+                            if str(text) == "":
+                                st.warning("Text tidak boleh kosong !")
+                            
+                            else:
+                                st.success("Sukses")
+                                key_caesar = modul.caesar_encrypt(str(enkripsi_number), 3)
+                                data_encrypt = modul.viginere_decrypt(str(text), str(key_caesar))
+                                st.success(data_encrypt)
+
             else:
                 st.markdown("<h3 align='center'>Dekripsi Chaesar Chipper & Viginere Chipper</h3>", unsafe_allow_html=True)
                 buffer, col1, col2 = st.columns([2, 6, 2])
