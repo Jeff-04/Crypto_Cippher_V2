@@ -12,7 +12,6 @@ import time
 import streamlit as st
 import numpy as np
 from datetime import datetime
-import pytz
 # Function
 
 
@@ -59,7 +58,7 @@ def sender_email(type, email, password, to, subject, text, key, real_text):
     # Send Database (Sender)
     sqliteConnection = sqlite3.connect('enkripsi.db')
     cursor = sqliteConnection.cursor()
-    now = datetime.now(pytz.timezone('Asia/Jakarta'))
+    now = datetime.now()
 
     sqlite_insert_query = f"""INSERT INTO sender
                             VALUES 
@@ -86,7 +85,7 @@ def sender_email(type, email, password, to, subject, text, key, real_text):
         # Insert Receiver
         sqliteConnection = sqlite3.connect('enkripsi.db')
         cursor = sqliteConnection.cursor()
-        now = datetime.now(pytz.timezone('Asia/Jakarta'))
+        now = datetime.now()
 
         sqlite_insert_query = f"""INSERT INTO sender
                                 VALUES 
@@ -197,14 +196,32 @@ def viginere_encrypt(plaintext, key):
         key_as_int = [ord(i) for i in key]
         plaintext_int = [ord(i) for i in plain_new]
         ciphertext = []
+        simbol_2 = [chr(i) for i in range(33, 48)]
+        simbol_3 = [chr(i) for i in range(58, 65)]
+        simbol_4 = [chr(i) for i in range(91, 97)]
+        simbol_5 = [chr(i) for i in range(123, 127)]
         for i in range(len(plaintext_int)):
-            value = (plaintext_int[i] + key_as_int[i % key_length]) % 26
             if str(plain_new[i]) == " ":
-                ciphertext.append(" ")
-            elif str(plaintext[i]) not in alpha and str(plaintext[i]) not in beta:
-                ciphertext.append(plaintext[i])
+                ciphertext.append(" ")  
+            elif str(plaintext[i]) in simbol_2:
+                value = (plaintext_int[i] + key_as_int[i % key_length]) % int(len(simbol_2))
+                ciphertext.append(chr(value + 33))
+            elif str(plaintext[i]) in simbol_3:
+                value = (plaintext_int[i] + key_as_int[i % key_length]) % int(len(simbol_3))
+                ciphertext.append(chr(value + 58))
+            elif str(plaintext[i]) in simbol_4:
+                value = (plaintext_int[i] + key_as_int[i % key_length]) % int(len(simbol_4))
+                ciphertext.append(chr(value + 91))
+            elif str(plaintext[i]) in simbol_5:
+                value = (plaintext_int[i] + key_as_int[i % key_length]) % int(len(simbol_5))
+                ciphertext.append(chr(value + 123))
+            elif str(plaintext[i]).isnumeric() == True:
+                value = (plaintext_int[i] + key_as_int[i % key_length]) % 10
+                ciphertext.append(chr(value + 48))
             else:
+                value = (plaintext_int[i] + key_as_int[i % key_length]) % 26
                 ciphertext.append(chr(value + 65))
+
         for i in range(len(plaintext)):
             if str(plaintext[i]).islower() == True:
                 ciphertext[i] = str(ciphertext[i]).lower()
@@ -226,14 +243,50 @@ def viginere_decrypt(plaintext, key):
         key_as_int = [ord(i) for i in key]
         plaintext_int = [ord(i) for i in plain_new]
         ciphertext = []
+        simbol_2 = [chr(i) for i in range(33, 48)]
+        simbol_3 = [chr(i) for i in range(58, 65)]
+        simbol_4 = [chr(i) for i in range(91, 97)]
+        simbol_5 = [chr(i) for i in range(123, 127)]
         for i in range(len(plaintext_int)):
-            value = (plaintext_int[i] - key_as_int[i % key_length]) % 26
             if str(plain_new[i]) == " ":
                 ciphertext.append(" ")
-            elif str(plaintext[i]) not in alpha and str(plaintext[i]) not in beta:
-                ciphertext.append(plaintext[i])
+            
+            elif str(plaintext[i]) in simbol_2:
+                value = (plaintext_int[i] - key_as_int[i % key_length]) % int(len(simbol_2))
+                if int(value) >= 6:
+                    ciphertext.append(chr(value + 27))
+                else:
+                    ciphertext.append(chr(value + 42))
+            elif str(plaintext[i]) in simbol_3:
+                value = (plaintext_int[i] - key_as_int[i % key_length]) % int(len(simbol_3))
+                if int(value) >= 4:
+                    ciphertext.append(chr(value + 54))
+                else:
+                    ciphertext.append(chr(value + 61))
+
+            elif str(plaintext[i]) in simbol_4:
+                value = (plaintext_int[i] - key_as_int[i % key_length]) % int(len(simbol_4))
+                if int(value) >= 2:
+                    ciphertext.append(chr(value + 89))
+                else:
+                    ciphertext.append(chr(value + 95))
+
+            elif str(plaintext[i]) in simbol_5:
+                value = (plaintext_int[i] - key_as_int[i % key_length]) % int(len(simbol_5))
+                if int(value) >= 2:
+                    ciphertext.append(chr(value + 121))
+                else:
+                    ciphertext.append(chr(value + 125))
+            elif str(plaintext[i]).isnumeric() == True:
+                value = (plaintext_int[i] - key_as_int[i % key_length]) % 10
+                if int(value) >= 7:
+                    ciphertext.append(chr(value + 45 - 3))
+                else:
+                    ciphertext.append(chr(value + 48 + 4))
             else:
+                value = (plaintext_int[i] - key_as_int[i % key_length]) % 26
                 ciphertext.append(chr(value + 65))
+
         for i in range(len(plaintext)):
             if str(plaintext[i]).islower() == True:
                 ciphertext[i] = str(ciphertext[i]).lower()
@@ -246,58 +299,35 @@ def viginere_decrypt(plaintext, key):
 
 
 def encrypt_combined_chipper(message: str, key: str):
-    # Encrypt Caesar Chipper
-    key_caesar = 3
-    alpha = "".join(chr(i) for i in range(65, 91))
-    beta = "".join(chr(i) for i in range(97, 123))
-    result = ""
+    # Encrypt Caesar
+    result_caesar = caesar_encrypt(str(message), 3)
 
-    for letter in message:
-
-        if letter in alpha:
-            letter_index = (alpha.find(letter) + key_caesar) % len(alpha)
-
-            result = result + alpha[letter_index]
-
-        elif letter in beta:
-            letter_index = (beta.find(letter) + key_caesar) % len(beta)
-
-            result = result + beta[letter_index]
-
-        else:
-            result = result + letter
-
-    result_caesar = result
-
-    # Viginere Chippper
+    # Encrypt Viginere
     return viginere_encrypt(result_caesar, str(key))
 
 
 def decrypt_combined_chipper(cipher, key):
+    # Decrypt Caesar
     data_viginere = viginere_decrypt(cipher, key)
 
     # Decrypt Caesar
-    key_caesar = 3
-    alpha = "".join(chr(i) for i in range(65, 91))
-    beta = "".join(chr(i) for i in range(97, 123))
-    result = ""
+    return caesar_decrypt(str(data_viginere), 3)
 
-    for letter in data_viginere:
+def encrypt_key_chipper(message: str, key: str):
+    # caesar encrypt key
+    key_caesar = caesar_encrypt(key, 3)
 
-        if letter in alpha:
-            letter_index = (alpha.find(letter) - key_caesar) % len(alpha)
+    # Encrypt Viginere
+    return viginere_encrypt(str(message), key_caesar)
 
-            result = result + alpha[letter_index]
 
-        elif letter in beta:
-            letter_index = (beta.find(letter) - key_caesar) % len(beta)
 
-            result = result + beta[letter_index]
+def decrypt_key_chipper(message: str, key: str):
+    # caesar decrypt key
+    key_caesar = caesar_decrypt(key, 3)
 
-        else:
-            result = result + letter
-
-    return result
+    # Decrypt Viginere
+    return viginere_encrypt(str(message), key_caesar)
 
 
 def get_notification(email_inp):
