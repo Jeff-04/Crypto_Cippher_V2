@@ -45,8 +45,8 @@ page_bg_img = """
 background-color : rgba(0, 0, 0, 0);
 }
 
-div.stButton{
-background-color : rgba(0, 0, 0, 0);
+div.stButton > button:first-child{
+background-color : rgba(255, 255, 255, .7);
 }
 
 [data-testid="column"]{
