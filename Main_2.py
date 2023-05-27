@@ -51,9 +51,9 @@ background-color : rgba(0, 0, 0, 0);
 }
 
 [data-testid="stForm"] {
-                background-color: rgba(255, 255, 255, .7);
-                border-radius: 15px;
-            }
+    background-color: rgb(255, 255, 255);
+    border-radius: 15px;
+}
 [data-baseweb="base-input"] {
     background-color: rgb(255, 255, 255);
     color: black;
