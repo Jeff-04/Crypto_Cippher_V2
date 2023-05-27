@@ -33,16 +33,6 @@ st.markdown("""
 # Background
 modul.add_bg_from_local('background.jpg')
 
-
-# Hide setting
-hide_streamlit_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            </style>
-            """
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
-
 page_bg_img = """
 <style>
 # @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
