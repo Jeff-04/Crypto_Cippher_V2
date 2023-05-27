@@ -49,6 +49,18 @@ background-color : rgba(0, 0, 0, 0);
 [data-testid="column"]{
 background-color : rgba(0, 0, 0, 0);
 }
+
+[data-testid="stForm"] {
+                background-color: rgba(255, 255, 255, .7);
+                border-radius: 15px;
+            }
+[data-baseweb="base-input"] {
+    background-color: rgb(255, 255, 255);
+    color: black;
+}
+[data-baseweb="input"] {
+    background-color: rgb(255, 255, 255);
+    color: black;
 </style>
 """
 
