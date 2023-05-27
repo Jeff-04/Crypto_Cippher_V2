@@ -12,6 +12,7 @@ import time
 import streamlit as st
 import numpy as np
 from datetime import datetime
+import base64
 # Function
 
 def add_bg_from_local(image_file):
