@@ -201,7 +201,7 @@ else:
                         {'label' : "Viginere dengan Key Caesar"}
                     ]
 
-            over_theme = {'txc_inactive': 'black','menu_background':'#eee','txc_active':'black','option_active':'#fafafa'}
+            over_theme = {'txc_inactive': 'black','menu_background':'#ECF5FE','txc_active':'black','option_active':'#fafafa'}
             font_fmt = {'font-class':'h2','font-size':'150%'}
 
             op = hc.option_bar(option_definition=option_data,key='PrimaryOption',override_theme=over_theme,font_styling=font_fmt,horizontal_orientation=True)
@@ -282,7 +282,7 @@ else:
                         {'label' : "Viginere dengan Key Caesar"}
                     ]
 
-            over_theme = {'txc_inactive': 'black','menu_background':'#eee','txc_active':'black','option_active':'#fafafa'}
+            over_theme = {'txc_inactive': 'black','menu_background':'#ECF5FE','txc_active':'black','option_active':'#fafafa'}
             font_fmt = {'font-class':'h2','font-size':'150%'}
 
             op = hc.option_bar(option_definition=option_data,key='PrimaryOption',override_theme=over_theme,font_styling=font_fmt,horizontal_orientation=True)
