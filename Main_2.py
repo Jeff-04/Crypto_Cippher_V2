@@ -41,7 +41,6 @@ page_bg_img = """
 #     font-family: 'Montserrat', sans-serif;
 # }
 
-
 [data-testid="stHeader"]{
 background-color : rgba(0, 0, 0, 0);
 }
@@ -51,6 +50,10 @@ background-color : rgba(0, 0, 0, 0);
 }
 
 [data-testid="stForm"] {
+    background-color: rgba(255, 255, 255, .7);
+    border-radius: 15px;
+}
+[class="navbar navbar-mainbg parent"] {
     background-color: rgba(255, 255, 255, .7);
     border-radius: 15px;
 }
