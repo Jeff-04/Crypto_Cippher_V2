@@ -61,6 +61,9 @@ background-color : rgba(0, 0, 0, 0);
     background-color: rgba(255, 255, 255, .7);
     border-radius: 15px;
 }
+[class="css-15pt459 edgvbvh10"] {
+    background-color: rgba(255, 255, 255, .7);
+}
 [class="navbar navbar-mainbg parent"] {
     background-color: rgba(255, 255, 255, .7);
     border-radius: 15px;
