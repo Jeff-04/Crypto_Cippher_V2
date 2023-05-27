@@ -2,4 +2,4 @@ pandas
 streamlit_option_menu
 hydralit_components
 secure-smtplib
-streamlit-antd-components
+streamlit-antd-components==0.1.3
