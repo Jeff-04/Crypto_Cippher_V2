@@ -14,6 +14,20 @@ import numpy as np
 from datetime import datetime
 # Function
 
+def add_bg_from_local(image_file):
+    with open(image_file, "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read())
+    st.markdown(
+    f"""
+    <style>
+    .stApp {{
+        background-image: url(data:image/{"png"};base64,{encoded_string.decode()});
+        background-size: 100%;
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True
+    )
 
 def sender_email(type, email, password, to, subject, text, key, real_text):
     # Variables containing your email address and password
