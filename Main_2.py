@@ -49,6 +49,10 @@ div.stButton > button:first-child{
 background-color : #9CC4FF;
 }
 
+.title {
+    color: black;
+}
+
 [data-testid="column"]{
 background-color : rgba(0, 0, 0, 0);
 }
