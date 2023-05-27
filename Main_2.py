@@ -46,7 +46,7 @@ background-color : rgba(0, 0, 0, 0);
 }
 
 div.stButton > button:first-child{
-background-color : rgba(255, 255, 255, .7);
+background-color : #9CC4FF;
 }
 
 [data-testid="column"]{
