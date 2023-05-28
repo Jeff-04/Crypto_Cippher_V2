@@ -421,5 +421,5 @@ else:
                         st.warning("Gagal Menginputkan Key !")
 
     elif str(item)=="logout":
-        st.success("Berhasil Logout !")
+        st.markdown("<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> Logout Berhasil ! </p>",unsafe_allow_html=True) 
         st.session_state['login'] = ''
