@@ -34,13 +34,31 @@ st.markdown("""
 modul.add_bg_from_local('background.jpg')
 
 # Remove title linkg
-st.markdown("""
-<style>
-.css-15zrgzn {display: none}
-.css-eczf16 {display: none}
-.css-jn99sy {display: none}
-</style>
-""", unsafe_allow_html=True)
+st.markdown(
+        body="""
+        <style>
+            h1 > div > a {
+                display: none;
+            }
+            h2 > div > a {
+                display: none;
+            }
+            h3 > div > a {
+                display: none;
+            }
+            h4 > div > a {
+                display: none;
+            }
+            h5 > div > a {
+                display: none;
+            }
+            h6 > div > a {
+                display: none;
+            }
+        </style>
+        """,
+         unsafe_allow_html=True,
+)
 
 page_bg_img="""
 # @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
