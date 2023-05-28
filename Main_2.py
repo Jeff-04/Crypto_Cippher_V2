@@ -39,6 +39,10 @@ st.markdown("""
     [class="css-13ss8fl e16nr0p32"]{
         display : none;
     }
+    
+    [class="css-1viaosz e19lei0e1"]{
+        display : none;
+    }
 </style>""", unsafe_allow_html=True)
 
 page_bg_img="""
