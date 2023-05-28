@@ -136,7 +136,7 @@ if st.session_state['login'] == '':
                         signup_func = modul.signup(email, nama, password)
 
                         if signup_func == True:
-                            st.success("Signup Berhasil")
+                            st.markdown("<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> Signup Berhasil ! </p>",unsafe_allow_html=True) 
                         else:
                             st.warning("Signup Gagal !")
             
@@ -277,9 +277,10 @@ else:
                                 data_encrypt = modul.encrypt_combined_chipper(str(text), str(number_encrypt))
                                 end = time.time()
 
-                            st.success("Sukses")
-                            st.success(data_encrypt)
-                            st.success(f"Waktu Proses : {(end - start) * 1000} Milidetik")
+                            st.markdown("<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'>Sukses</p>",unsafe_allow_html=True)
+                            st.markdown(f"<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> {data_encrypt} </p>",unsafe_allow_html=True) 
+                            st.markdown(f"<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> Waktu Proses : {(end - start) * 1000} </p>",unsafe_allow_html=True) 
+                 
                             modul.sender_email(str(st.session_state['type_encrypt']), str(st.session_state['login']),str(check_key[1]), str(to), str(subject), str(data_encrypt), number_encrypt, text)
                         else:
                             st.warning("Setup Email Terlebih Dahulu !")
@@ -349,10 +350,9 @@ else:
                             data_encrypt = modul.decrypt_combined_chipper(str(text), str(number_encrypt))
                             end = time.time()
                         
-                        st.success("Sukses")
-                        st.success(f"Waktu Proses : {(end - start) * 1000} Milidetik")
-                        st.success(data_encrypt)
-
+                         st.markdown("<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'>Sukses</p>",unsafe_allow_html=True)
+                            st.markdown(f"<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> {data_encrypt} </p>",unsafe_allow_html=True) 
+                            st.markdown(f"<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> Waktu Proses : {(end - start) * 1000} </p>",unsafe_allow_html=True
     elif str(item) == "message box":
         option_data = [
                     {'label':"Inbox"},
@@ -410,7 +410,7 @@ else:
                     test_key = modul.send_key(str(st.session_state['login']), str(generate_password))
 
                     if test_key == True:
-                        st.success("Berhasil Menginputkan Key !")
+                        st.markdown(f"<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> Berhasil Menginputkan Key ! </p>",unsafe_allow_html=True
                     else:
                         st.warning("Gagal Menginputkan Key !")
 
