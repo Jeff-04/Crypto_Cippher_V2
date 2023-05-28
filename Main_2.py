@@ -410,7 +410,7 @@ else:
                     test_key = modul.send_key(str(st.session_state['login']), str(generate_password))
 
                     if test_key == True:
-                        st.markdown(f"<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> Berhasil Menginputkan Key ! </p>",unsafe_allow_html=True
+                        st.markdown(f"<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> Berhasil Menginputkan Key ! </p>",unsafe_allow_html=True)
                     else:
                         st.warning("Gagal Menginputkan Key !")
 
