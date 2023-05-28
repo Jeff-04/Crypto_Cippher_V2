@@ -103,7 +103,7 @@ if st.session_state['login'] == '':
                         login_func = modul.login(email, password)
 
                         if login_func == True:
-                            st.markdown("<p style='background-color:#C5ECE2; color:black; line-height:60px;'> Login Berhasil ! </p>",unsafe_allow_html=True) 
+                            st.markdown("<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> Login Berhasil ! </p>",unsafe_allow_html=True) 
                             st.session_state['login'] = email
                         else:
                             st.warning("Login Gagal !")
