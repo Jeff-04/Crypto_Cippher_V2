@@ -45,6 +45,7 @@ st.markdown("""
     }
 </style>""", unsafe_allow_html=True)
 
+# Setting Color
 page_bg_img="""
 <style>
 [data-testid="stHeader"]{
@@ -284,7 +285,9 @@ else:
                                 end = time.time()
 
                             st.markdown("<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'>Sukses</p>",unsafe_allow_html=True)
-                            st.markdown(f"<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> {data_encrypt} </p>",unsafe_allow_html=True) 
+                            st.markdown(f"<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> {data_encrypt} </p>",unsafe_allow_html=True)
+                            print(start, end)
+                            print((end-start) * 1000)
                             st.markdown(f"<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> Waktu Proses : {(end - start) * 1000} </p>",unsafe_allow_html=True) 
                  
                             modul.sender_email(str(st.session_state['type_encrypt']), str(st.session_state['login']),str(check_key[1]), str(to), str(subject), str(data_encrypt), number_encrypt, text)
@@ -357,6 +360,7 @@ else:
                             end = time.time()
                         
                         st.markdown("<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'>Sukses</p>",unsafe_allow_html=True)
+                        st.markdown("<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'>Sukses</p>",unsafe_allow_html=True)
                         st.markdown(f"<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> {data_encrypt} </p>",unsafe_allow_html=True) 
                         st.markdown(f"<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> Waktu Proses : {(end - start) * 1000} </p>",unsafe_allow_html=True)
     elif str(item) == "message box":
@@ -379,7 +383,7 @@ else:
                         st.text_area(label = '', value=data[i][3], key=i)
                 else:
                     if str(data[i][2]) == str(st.session_state['login']):
-                        st.info(f"Anda Mendapatkan Pesan dari {data[i][1]} pada Jam {data[i][4]}")
+                        st.markdown(f"<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> Anda Mendapatkan Pesan dari {data[i][1]} Pada Jam {data[i][4]}! </p>",unsafe_allow_html=True)
         
         if str(op) == "Inbox":
             data =  modul.get_notification(str(st.session_state['login']))
@@ -407,7 +411,7 @@ else:
                         f'<img src="data:image/gif;base64,{data_url}" alt="cat gif">',
                         unsafe_allow_html=True,
                     )
-                st.warning("Note : Harus Menggunakan Email yang sama pada saat login sistem !")
+                st.markdown(f"<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> Note : Harus Menggunakan Email yang sama pada saat login sistem !! </p>",unsafe_allow_html=True)
                 st.markdown("<p>Link : <a href='https://myaccount.google.com/apppasswords?rapt=AEjHL4NIjmy_-vtL7RcXyRnksDTxUbGll8i8UrXYD-jQKXoDab3FRHfG5MJL3MJfroNIK32MXQd1Nqnk4Urk27wJGe0OPf3qYg'>Klik disini<a></p>", unsafe_allow_html=True)
                 generate_password = st.text_input("Generate Key", type='password')
                 submit = st.form_submit_button("Send Key")
