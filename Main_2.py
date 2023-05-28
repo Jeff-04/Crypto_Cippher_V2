@@ -35,7 +35,9 @@ modul.add_bg_from_local('background.jpg')
 
 # Remove title linkg
 st.markdown("""
-.css-m70y {display:none}
+<style>
+.css-15zrgzn {display: none}
+</style>
 """, unsafe_allow_html=True)
 
 page_bg_img="""
