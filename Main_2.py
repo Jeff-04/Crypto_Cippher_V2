@@ -34,7 +34,12 @@ st.markdown("""
 modul.add_bg_from_local('background.jpg')
 
 # Remove title link
-st.markdown(""" <style> .css-m70y {display:none} </style>""", unsafe_allow_html=True)
+st.markdown("""
+<style>
+    [class="css-13ss8fl e16nr0p32"]{
+        display : none;
+    }
+</style>""", unsafe_allow_html=True)
 
 page_bg_img="""
 <style>
