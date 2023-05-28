@@ -36,7 +36,7 @@ modul.add_bg_from_local('background.jpg')
 # Remove title linkg
 
 page_bg_img="""
-
+<style>
 [data-testid="stHeader"]{
 background-color : rgba(0, 0, 0, 0);
 }
