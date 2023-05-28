@@ -33,7 +33,8 @@ st.markdown("""
 # Background
 modul.add_bg_from_local('background.jpg')
 
-# Remove title linkg
+# Remove title link
+st.markdown("""<style>.css-zt5igj svg{display:none}</style>""", unsafe_allow_html=True)
 
 page_bg_img="""
 <style>
