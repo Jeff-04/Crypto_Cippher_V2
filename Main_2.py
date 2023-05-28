@@ -38,6 +38,7 @@ st.markdown("""
 .css-m70y {display:none}
 """, unsafe_allow_html=True)
 
+page_bg_img="""
 # @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
 
 # html, body, [class*="css"]  {
