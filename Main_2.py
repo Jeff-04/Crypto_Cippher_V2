@@ -36,11 +36,6 @@ modul.add_bg_from_local('background.jpg')
 # Remove title linkg
 
 page_bg_img="""
-# @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
-
-# html, body, [class*="css"]  {
-#     font-family: 'Montserrat', sans-serif;
-# }
 
 [data-testid="stHeader"]{
 background-color : rgba(0, 0, 0, 0);
