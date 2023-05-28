@@ -350,9 +350,9 @@ else:
                             data_encrypt = modul.decrypt_combined_chipper(str(text), str(number_encrypt))
                             end = time.time()
                         
-                         st.markdown("<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'>Sukses</p>",unsafe_allow_html=True)
-                            st.markdown(f"<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> {data_encrypt} </p>",unsafe_allow_html=True) 
-                            st.markdown(f"<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> Waktu Proses : {(end - start) * 1000} </p>",unsafe_allow_html=True
+                        st.markdown("<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'>Sukses</p>",unsafe_allow_html=True)
+                        st.markdown(f"<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> {data_encrypt} </p>",unsafe_allow_html=True) 
+                        st.markdown(f"<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> Waktu Proses : {(end - start) * 1000} </p>",unsafe_allow_html=True
     elif str(item) == "message box":
         option_data = [
                     {'label':"Inbox"},
