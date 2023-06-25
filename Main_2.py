@@ -8,6 +8,7 @@ from pathlib import Path
 import os
 import time
 
+
 st.set_page_config(layout='wide')
 
 # Session
@@ -86,6 +87,49 @@ background-color : rgba(0, 0, 0, 0);
 </style>
 """
 
+def caesar_encrypt(message, key):
+    simbol = [chr(i) for i in range(1, 48)] + [chr(i) for i in range(58, 65)] + [chr(i)
+                                                                                 for i in range(91, 97)] + [chr(i) for i in range(123, 128)]
+    simbol.remove(" ")
+
+    alpha = "".join(chr(i) for i in range(65, 91))
+    beta = "".join(chr(i) for i in range(97, 123))
+    simbol = "".join(i for i in simbol)
+    number = "".join(chr(i) for i in range(48, 58))
+    result = ""
+
+    # print("===== Data Caesar =====")
+    # print("==== Alpha\n{}\n\nBeta\n{}\n\nSimbol\n{}\n\nNumber\n{}\n\n".format(
+    #     alpha, beta, simbol, number
+    # ))
+
+    for letter in message:
+        if letter in simbol:  # if the letter is actually a letter
+            # find the corresponding ciphertext letter in the simbolbet
+            letter_index = (simbol.find(letter) + key) % len(simbol)
+
+            result = result + simbol[letter_index]
+
+        elif letter in number:
+            letter_index = (number.find(letter) + key) % len(number)
+
+            result = result + number[letter_index]
+
+        elif letter in alpha:
+            letter_index = (alpha.find(letter) + key) % len(alpha)
+
+            result = result + alpha[letter_index]
+
+        elif letter in beta:
+            letter_index = (beta.find(letter) + key) % len(beta)
+
+            result = result + beta[letter_index]
+
+        else:
+            result = result + letter
+
+    return result
+
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
 if st.session_state['login'] == '':
@@ -153,7 +197,6 @@ if st.session_state['login'] == '':
 
 
 else:
-
     items = [
         MenuItem('Beranda', 'beranda', icon='house'),
         MenuItem('Cryptography', 'cryptography', icon='file-earmark-lock-fill', children=[
@@ -166,6 +209,8 @@ else:
 
     ]
     with st.sidebar.container():
+        nama = modul.get_nama(st.session_state['login'])
+        st.success(f"# Selamat Datang ..\n#### {nama[1]}\n###### {str(st.session_state['login'])}")
         item = antd_menu(
             items=items,
             selected_key='beranda',
@@ -246,7 +291,7 @@ else:
                 subject = st.text_input("Subject")
                 text = st.text_area("Body")
                 if st.session_state['type_encrypt'] == "Caesar Cipher":
-                    number_encrypt = st.number_input("Key", min_value=1, max_value=100, step=1)
+                    number_encrypt = st.number_input("Key", min_value=1, max_value=25, step=1)
                 else:
                     number_encrypt = st.text_input('Key')
                 uploaded_file = st.file_uploader("Choose a file")
@@ -265,32 +310,74 @@ else:
 
                         check_key = modul.check_key(str(st.session_state['login']))
                         if type(check_key) != bool:
-                            start = time.time()
                             data_encrypt = ""
                             if str(st.session_state['type_encrypt']) == "Caesar Cipher":
+                                start = time.perf_counter()
                                 data_encrypt = modul.caesar_encrypt(str(text), number_encrypt)
-                                end = time.time()
+                                end = time.perf_counter()
 
                             if str(st.session_state['type_encrypt']) == "Viginere Cipher":
+                                start = time.perf_counter()
                                 data_encrypt = modul.viginere_encrypt(str(text), number_encrypt)
-                                end = time.time()
+                                end = time.perf_counter()
 
                             if str(st.session_state['type_encrypt']) == "Viginere dengan Key Caesar":
+                                start = time.perf_counter()
                                 key_caesar = modul.caesar_encrypt(str(number_encrypt), 3)
                                 data_encrypt = modul.viginere_encrypt(str(text), str(key_caesar))
-                                end = time.time()
+                                end = time.perf_counter()
                                 
                             if str(st.session_state['type_encrypt']) == "Combined Cipher (Caesar & Viginere)":
+                                start = time.perf_counter()
                                 data_encrypt = modul.encrypt_combined_chipper(str(text), str(number_encrypt))
-                                end = time.time()
+                                end = time.perf_counter()
 
+                            duration = (end - start) * 1000
                             st.markdown("<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'>Sukses</p>",unsafe_allow_html=True)
                             st.markdown(f"<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> {data_encrypt} </p>",unsafe_allow_html=True)
-                            print(start, end)
-                            print((end-start) * 1000)
-                            st.markdown(f"<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> Waktu Proses : {(end - start) * 1000} </p>",unsafe_allow_html=True) 
+                            st.markdown(f"<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> Waktu Proses : {float(duration)} </p>",unsafe_allow_html=True) 
                  
                             modul.sender_email(str(st.session_state['type_encrypt']), str(st.session_state['login']),str(check_key[1]), str(to), str(subject), str(data_encrypt), number_encrypt, text)
+
+                            with st.expander("Penjelasan Algoritma.."):
+                                sample_data = text.split(" ")[0]
+
+                                if str(st.session_state['type_encrypt']) == "Caesar Cipher":
+                                    st.markdown(f"<h4 align='center'> Enkripsi {st.session_state['type_encrypt']} </h4>", unsafe_allow_html=True)
+                                    st.markdown("<h5>==Info Enkripsi==", unsafe_allow_html=True)
+                                    st.write(f"##### Text Sample : {sample_data}")
+                                    st.write(f"##### Key : {number_encrypt}")
+                                    data_encrypt = modul.caesar_encrypt_explain(str(sample_data), number_encrypt)
+
+                                if str(st.session_state['type_encrypt']) == "Viginere Cipher":
+                                    st.markdown(f"<h4 align='center'> Enkripsi {st.session_state['type_encrypt']} </h4>", unsafe_allow_html=True)
+                                    st.markdown("<h5>==Info Enkripsi==", unsafe_allow_html=True)
+                                    data_encrypt = modul.viginere_encrypt_explain(str(sample_data), number_encrypt)
+
+                                if str(st.session_state['type_encrypt']) == "Combined Cipher (Caesar & Viginere)":
+                                    st.markdown(f"<h4 align='center'> Enkripsi Text Caesar Cipher </h4>", unsafe_allow_html=True)
+                                    st.markdown("<h5>==Info Enkripsi==", unsafe_allow_html=True)
+                                    st.write(f"##### Text Sample : {sample_data}")
+                                    st.write(f"##### Key : 3")
+                                    key_caesar = modul.caesar_encrypt_explain(str(sample_data), 3)
+                                    st.markdown(f"<h4 align='center'> Enkripsi Viginere Cipher dengan key text Caesar</h4>", unsafe_allow_html=True)
+                                    st.markdown("<h5>==Info Enkripsi==", unsafe_allow_html=True)
+                                    data_encrypt = modul.viginere_encrypt_explain(str(sample_data), str(key_caesar))
+   
+                                if str(st.session_state['type_encrypt']) == "Viginere dengan Key Caesar":
+                                    st.markdown(f"<h4 align='center'> Enkripsi Key Caesar Cipher </h4>", unsafe_allow_html=True)
+                                    st.markdown("<h5>==Info Enkripsi==", unsafe_allow_html=True)
+                                    st.write(f"##### Text Sample : {number_encrypt}")
+                                    st.write(f"##### Key : 3")
+                                    key_caesar = modul.caesar_encrypt_explain(str(number_encrypt), 3)
+                                    st.markdown(f"<h4 align='center'> Enkripsi Viginere Cipher dengan Key Caesar</h4>", unsafe_allow_html=True)
+                                    st.markdown("<h5>==Info Enkripsi==", unsafe_allow_html=True)
+                                    data_encrypt = modul.viginere_encrypt_explain(str(sample_data), str(key_caesar))
+                                # st.markdown(f"<h4 align='center'> Enkripsi {st.session_state['type_encrypt']} </h4>", unsafe_allow_html=True)
+                                # data_sample = text.split(" ")
+                                # st.write(f"Sample Kalimat : {data_sample[0]}")
+
+
                         else:
                             st.warning("Setup Email Terlebih Dahulu !")
 
@@ -340,29 +427,65 @@ else:
                         st.warning("Text tidak boleh kosong !")
                     
                     else:
-                        start = time.time()
                         data_encrypt = ""
                         if str(st.session_state['type_decrypt']) == "Caesar Cipher":
+                            start = time.perf_counter()
                             data_encrypt = modul.caesar_decrypt(str(text), number_encrypt)
-                            end = time.time()
+                            end = time.perf_counter()
 
                         if str(st.session_state['type_decrypt']) == "Viginere Cipher":
+                            start = time.perf_counter()
                             data_encrypt = modul.viginere_decrypt(str(text), number_encrypt)
-                            end = time.time()
+                            end = time.perf_counter()
 
                         if str(st.session_state['type_decrypt']) == "Viginere dengan Key Caesar":
+                            start = time.perf_counter()
                             key_caesar = modul.caesar_encrypt(str(number_encrypt), 3)
                             data_encrypt = modul.viginere_decrypt(str(text), str(key_caesar))
-                            end = time.time()
+                            end = time.perf_counter()
                             
                         if str(st.session_state['type_decrypt']) == "Combined Cipher (Caesar & Viginere)":
+                            start = time.perf_counter()
                             data_encrypt = modul.decrypt_combined_chipper(str(text), str(number_encrypt))
-                            end = time.time()
+                            end = time.perf_counter()
                         
-                        st.markdown("<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'>Sukses</p>",unsafe_allow_html=True)
                         st.markdown("<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'>Sukses</p>",unsafe_allow_html=True)
                         st.markdown(f"<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> {data_encrypt} </p>",unsafe_allow_html=True) 
                         st.markdown(f"<p style='background-color:#C5ECE2; color:black; line-height:60px; padding-left:17px;'> Waktu Proses : {(end - start) * 1000} </p>",unsafe_allow_html=True)
+                        with st.expander("Penjelasan Algoritma.."):
+                            sample_data = text.split(" ")[0]
+                            if str(st.session_state['type_decrypt']) == "Caesar Cipher":
+                                    st.markdown(f"<h4 align='center'> Dekripsi {st.session_state['type_decrypt']} </h4>", unsafe_allow_html=True)
+                                    st.markdown("<h5>==Info Dekripsi==", unsafe_allow_html=True)
+                                    st.write(f"##### Text Sample : {sample_data}")
+                                    st.write(f"##### Key : {number_encrypt}")
+                                    data_encrypt = modul.caesar_decrypt_explain(str(sample_data), number_encrypt)
+
+                            if str(st.session_state['type_decrypt']) == "Viginere Cipher":
+                                st.markdown(f"<h4 align='center'> Dekripsi {st.session_state['type_decrypt']} </h4>", unsafe_allow_html=True)
+                                st.markdown("<h5>==Info Dekripsi==", unsafe_allow_html=True)
+                                data_encrypt = modul.viginere_decrypt_explain(str(sample_data), number_encrypt)
+
+                            if str(st.session_state['type_decrypt']) == "Combined Cipher (Caesar & Viginere)":
+                                st.markdown(f"<h4 align='center'> Dekripsi Text Viginere Cipher</h4>", unsafe_allow_html=True)
+                                st.markdown("<h5>==Info Dekripsi==", unsafe_allow_html=True)
+                                key_caesar = modul.viginere_decrypt_explain(str(sample_data), number_encrypt)
+                                st.markdown(f"<h4 align='center'> Dekripsi Caesar Cipher dengan key text Viginere</h4>", unsafe_allow_html=True)
+                                st.markdown("<h5>==Info Dekripsi==", unsafe_allow_html=True)
+                                st.write(f"##### Text Sample : {key_caesar}")
+                                st.write(f"##### Key : 3")
+                                data_encrypt = modul.caesar_decrypt_explain(str(key_caesar), 3)
+
+                            if str(st.session_state['type_decrypt']) == "Viginere dengan Key Caesar":
+                                st.markdown(f"<h4 align='center'> Dekripsi Key Caesar Cipher </h4>", unsafe_allow_html=True)
+                                st.markdown("<h5>==Info Dekripsi==", unsafe_allow_html=True)
+                                st.write(f"##### Text Sample : {number_encrypt}")
+                                st.write(f"##### Key : 3")
+                                key_caesar = modul.caesar_encrypt_explain(str(number_encrypt), 3)
+                                st.markdown(f"<h4 align='center'> Dekripsi Viginere Cipher dengan Key Caesar</h4>", unsafe_allow_html=True)
+                                st.markdown("<h5>==Info Dekripsi==", unsafe_allow_html=True)
+                                data_encrypt = modul.viginere_decrypt_explain(str(sample_data), str(key_caesar))
+                            
     elif str(item) == "message box":
         option_data = [
                     {'label':"Inbox"},
